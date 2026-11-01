@@ -16,6 +16,7 @@ A browser-first cat café game prototype. Open `Little Paws.html` directly in a 
 - Mouse/finger drag camera orbit, scroll zoom, arrow-key camera controls, and Reset view.
 - Hover or touch strokes pet the cat, increase happiness, and trigger a purring animation. Toggle Sound on for a synthesized purr.
 - Compact translucent care, reward, game, and navigation controls over the room.
+- One sound toggle controls a higher-pitched purr, gentle UI clicks, eating, resting, and a quiet stereo café ambience. Audio starts off and pauses when the tab is hidden.
 
 ## Prototype boundaries
 
@@ -25,4 +26,4 @@ The café room and cats are original Three.js models. Resident cards use origina
 
 Care decay per hour: 4 fullness, 2.8 happiness, 1.7 energy. At 15 fullness or 10 happiness, sickness begins. Recovery requires a care kit plus 40 fullness, 40 happiness, and 35 energy. Use How to play → Simulate 24 hours away to try recovery.
 
-The static website is in `dist/`. It needs no package installation. Web fonts are optional; system fonts provide a fallback. Run `node interaction-check.mjs` for the mouse/touch gesture checks.
+The static website is in `dist/`. It needs no package installation. Web fonts are optional; system fonts provide a fallback. Run `node interaction-check.mjs` for the mouse/touch gesture checks, and `node sound-check.mjs` for sound and mute lifecycle checks. `node sound-check.mjs --preview` also creates a short WAV listening sample. All sounds are synthesized locally without external audio downloads.
