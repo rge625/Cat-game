@@ -1,6 +1,6 @@
 # Little Paws
 
-A browser-first cat café game prototype. Open `Little Paws.html` directly in a browser, or run `node preview.mjs` and visit http://127.0.0.1:4173. Run `node build-standalone.mjs` to refresh the standalone copy after changes.
+A browser-first cat café game prototype. Run `node build-standalone.mjs` to create `Little Paws.html`, which opens directly in a browser, or run `node preview.mjs` and visit http://127.0.0.1:4173. Run `node build-standalone.mjs` to refresh the standalone copy after changes.
 
 ## Playable features
 
@@ -27,3 +27,9 @@ The café room and cats are original Three.js models. The adult cat model has fu
 Care decay per hour: 4 fullness, 2.8 happiness, 1.7 energy. At 15 fullness or 10 happiness, sickness begins. Recovery requires a care kit plus 40 fullness, 40 happiness, and 35 energy. Use How to play → Simulate 24 hours away to try recovery.
 
 The static website is in `dist/`. It needs no package installation. Web fonts are optional; system fonts provide a fallback. Run `node interaction-check.mjs` for the mouse/touch gesture checks, and `node sound-check.mjs` for sound and mute lifecycle checks. The cat recordings and music are bundled locally in `dist/audio/`, so playback does not depend on third-party audio hosts. Credits and licenses are available in How to play → Music & sound credits and in `dist/audio/credits.json`. The background uses Kevin MacLeod’s Bossa Antigua (CC BY 4.0), with no added room noise or cup clinks. Purring is by Peter Hull (CC BY-SA 4.0); eating is by admin_phpbb / PDSounds (public domain). Only UI clicks and resting chimes are synthesized.
+
+## Development journal and versions
+
+Read the [day-one development journal](dist/blog/index.html) or its [hosted version](https://little-paws-cafe-ronnie.verve-4139.chatgpt.site/blog/). It covers all four gameplay iterations from November 1, 2026, plus the journal and repository handoff. The initial 2D build has a screenshot but no saved Git snapshot. Saved source versions are exported to the `v0.2.0`, `v0.3.0`, and `v0.4.0` GitHub branches; `main` is the current v0.4.1 handoff. See `versions.json` for original local commit hashes. GitHub export commits have their own hashes.
+
+GitHub contains the portable source, bundled media, credits, and checks. The generated standalone HTML is rebuilt with `node build-standalone.mjs`; private Sites project metadata is not part of the public export. The repository is [rge625/Cat-game](https://github.com/rge625/Cat-game).

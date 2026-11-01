@@ -1,0 +1,45 @@
+{
+  "date": "2026-11-01",
+  "timezone": "America/Los_Angeles",
+  "note": "Retrospective version labels for the first day. Original local source commit hashes are distinct from GitHub export commit hashes.",
+  "repository": "https://github.com/rge625/Cat-game",
+  "versions": [
+    {
+      "version": "0.1.0",
+      "title": "First 2D companion prototype",
+      "source_commit": null,
+      "source_status": "Screenshot and feature record only; no original Git snapshot was saved",
+      "screenshot": "dist/blog/images/v0.1-flat.jpg"
+    },
+    {
+      "version": "0.2.0",
+      "title": "3D room and stroke-to-pet interaction",
+      "source_commit": "3bf556b7c04ecad81c39ce7e1ac0709e10e88277",
+      "github_branch": "v0.2.0",
+      "screenshot": "dist/blog/images/v0.2-3d.jpg",
+      "github_commit": "b2e9239ba0a41834458cbdcf4dbecacd5354d512"
+    },
+    {
+      "version": "0.3.0",
+      "title": "Synthesized sound experiment",
+      "source_commit": "258fffc5b7d92adf07aec6a7e6468a12ea945a10",
+      "github_branch": "v0.3.0",
+      "screenshot": "dist/blog/images/v0.3-sound.jpg",
+      "github_commit": "f2050bd89789706e55cd38a19f0670028f571ca1"
+    },
+    {
+      "version": "0.4.0",
+      "title": "Real recordings, café music, and natural cat model",
+      "source_commit": "b28a64e182a4162dc4918bfeb6c794abfb196a15",
+      "github_branch": "v0.4.0",
+      "screenshot": "dist/blog/images/v0.4-natural.jpg",
+      "github_commit": "98fa6217104eaf7251503c8dbd4f6f87b3685ddf"
+    },
+    {
+      "version": "0.4.1",
+      "title": "Development journal and GitHub export",
+      "github_branch": "main",
+      "source_status": "Current journal and repository handoff"
+    }
+  ]
+}
