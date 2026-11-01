@@ -1,0 +1,5 @@
+{
+  "music": {"title":"Bossa Antigua","creator":"Kevin MacLeod","source":"https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1700069","license":"CC BY 4.0","license_url":"https://creativecommons.org/licenses/by/4.0/","changes":"Unmodified recording, played quietly in the café."},
+  "purr": {"title":"Cat purring","creator":"Peter Hull (Z8kflt)","source":"https://commons.wikimedia.org/wiki/File:Cat_purring.ogg","license":"CC BY-SA 4.0","license_url":"https://creativecommons.org/licenses/by-sa/4.0/","changes":"Wikimedia MP3 transcode. Playback uses a normalized 12-second excerpt with short fades. The excerpt remains CC BY-SA 4.0."},
+  "eat": {"title":"Cat eating noisily","creator":"admin_phpbb / PDSounds","source":"https://commons.wikimedia.org/wiki/File:Cat_eating_noisily.ogg","license":"Public domain","license_url":"https://commons.wikimedia.org/wiki/File:Cat_eating_noisily.ogg#Licensing","changes":"Wikimedia MP3 transcode. Playback uses a short normalized excerpt with fades."}
+}

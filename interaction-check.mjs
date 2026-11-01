@@ -13,13 +13,18 @@ const context=vm.createContext({console:{warn(){}},Math,devicePixelRatio:1,
  performance:{now:()=>now},matchMedia:()=>({matches:true}),
  requestAnimationFrame(fn){draw=fn;return 1},cancelAnimationFrame(){},
  ResizeObserver:class{observe(){}disconnect(){}},
- document:{hidden:false,querySelector:()=>null,createElement(){return {getContext(){return {fillRect(){},fillText(){}}}}}}});
+ document:{hidden:false,querySelector:()=>null,createElement(){return {getContext(){return new Proxy({},{get:(t,k)=>t[k]||(()=>{}),set:(t,k,v)=>(t[k]=v,true)})}}}}});
 context.window=context;
 vm.runInContext(fs.readFileSync(new URL('dist/vendor/three.min.js',import.meta.url),'utf8'),context);
 context.THREE.WebGLRenderer=class{constructor(){this.shadowMap={}}setPixelRatio(){}setSize(){}render(){}dispose(){}};
 context.THREE.Raycaster=class{setFromCamera(){}intersectObjects(){return hitCat?[{}]:[]}};
+vm.runInContext(fs.readFileSync(new URL('dist/cat-model.js',import.meta.url),'utf8'),context);
 vm.runInContext(fs.readFileSync(new URL('dist/room3d.js',import.meta.url),'utf8'),context);
 const room=context.createCafeRoom({canvas,onStroke:()=>rewards++});
+room.sync({coat:'tuxedo',accessory:'none',sick:false});
+room.sync({coat:'ginger',accessory:'bow',sick:false});
+room.sync({coat:'gray',accessory:'hat',sick:false});
+room.sync({coat:'gray',accessory:'scarf',sick:true});
 const pointer=(x,y,id=1,pointerType='mouse')=>({clientX:x,clientY:y,pointerId:id,pointerType,button:0,type:'pointerup'});
 
 // Hover strokes count without requiring a click.

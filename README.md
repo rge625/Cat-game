@@ -14,16 +14,16 @@ A browser-first cat café game prototype. Open `Little Paws.html` directly in a 
 - Responsive layout, keyboard controls, reduced motion, and browser-local saved progress.
 - An original 3D café with shadows, furniture, a garden window, and dimensional cats.
 - Mouse/finger drag camera orbit, scroll zoom, arrow-key camera controls, and Reset view.
-- Hover or touch strokes pet the cat, increase happiness, and trigger a purring animation. Toggle Sound on for a synthesized purr.
+- Hover or touch strokes pet the cat, increase happiness, and trigger a purring animation. Toggle Sound on for the recorded purr.
 - Compact translucent care, reward, game, and navigation controls over the room.
-- One sound toggle controls a higher-pitched purr, gentle UI clicks, eating, resting, and a quiet stereo café ambience. Audio starts off and pauses when the tab is hidden.
+- One sound toggle controls real recorded purring and feeding, gentle UI clicks, resting chimes, and relaxed café music. Audio starts off and pauses when the tab is hidden.
 
 ## Prototype boundaries
 
 The café name and residents are placeholders. All progress is saved in localStorage on this browser/device. No accounts, server database, real purchases, visit verification, bookings, or redeemable café offers are connected. Uploaded photos appear on resident profile cards; the room uses an original 3D cat with the chosen coat and accessory. 3D needs WebGL; care controls and games remain available if it is unavailable. Sound starts off and can be enabled with the Sound button.
 
-The café room and cats are original Three.js models. Resident cards use original SVG illustrations. The design takes broad cozy pet-game inspiration from Capy — Pet Capybara without using its assets. Three.js r160.1 is bundled in `dist/vendor/` with its MIT license.
+The café room and cats are original Three.js models. The adult cat model has fur textures, more natural proportions, glossy irises, delicate whiskers, and a 0.86 overall scale. Resident cards use original SVG illustrations. The design takes broad cozy pet-game inspiration from Capy — Pet Capybara without using its assets. Three.js r160.1 is bundled in `dist/vendor/` with its MIT license.
 
 Care decay per hour: 4 fullness, 2.8 happiness, 1.7 energy. At 15 fullness or 10 happiness, sickness begins. Recovery requires a care kit plus 40 fullness, 40 happiness, and 35 energy. Use How to play → Simulate 24 hours away to try recovery.
 
-The static website is in `dist/`. It needs no package installation. Web fonts are optional; system fonts provide a fallback. Run `node interaction-check.mjs` for the mouse/touch gesture checks, and `node sound-check.mjs` for sound and mute lifecycle checks. `node sound-check.mjs --preview` also creates a short WAV listening sample. All sounds are synthesized locally without external audio downloads.
+The static website is in `dist/`. It needs no package installation. Web fonts are optional; system fonts provide a fallback. Run `node interaction-check.mjs` for the mouse/touch gesture checks, and `node sound-check.mjs` for sound and mute lifecycle checks. The cat recordings and music are bundled locally in `dist/audio/`, so playback does not depend on third-party audio hosts. Credits and licenses are available in How to play → Music & sound credits and in `dist/audio/credits.json`. The background uses Kevin MacLeod’s Bossa Antigua (CC BY 4.0), with no added room noise or cup clinks. Purring is by Peter Hull (CC BY-SA 4.0); eating is by admin_phpbb / PDSounds (public domain). Only UI clicks and resting chimes are synthesized.
