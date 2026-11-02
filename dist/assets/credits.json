@@ -1,0 +1,37 @@
+{
+  "materials": [
+    {
+      "asset": "materials/wood-{color,normal,roughness}.jpg",
+      "title": "Wood Floor",
+      "author": "Dimitrios Savva",
+      "source": "https://polyhaven.com/a/wood_floor",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license"
+    },
+    {
+      "asset": "materials/garden.hdr",
+      "title": "Suburban Garden",
+      "authors": [
+        "Dimitrios Savva",
+        "Jarod Guest"
+      ],
+      "source": "https://polyhaven.com/a/suburban_garden",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license"
+    }
+  ],
+  "portraits": {
+    "original": "cafe-cats.png",
+    "enhanced": "cafe-cats-enhanced.png",
+    "source": "User-supplied café poster",
+    "method": "Built-in image_gen tool",
+    "prompt": "Conservative identity-preserving enhancement of the supplied Little Beans cat roster: improve sharpness and reduce blur in all 17 photo circles; preserve cats, markings, collars, poses, labels and original layout; no substituted cats. Built-in image generation edit. The generated output rearranged the poster spacing; the app uses dedicated portrait coordinates and labels the result AI-enhanced. Fine details are inferred, not recovered original photographic data.",
+    "limitations": "AI reconstruction can infer or alter details; original images remain available in the cat selector. No sharper verified original images of these residents were found in the public-source search."
+  },
+  "library": {
+    "name": "Three.js RGBELoader r160",
+    "source": "https://unpkg.com/three@0.160.1/examples/jsm/loaders/RGBELoader.js",
+    "license": "MIT",
+    "note": "Imports adapted to the bundled Three.js global; license in dist/vendor/THREE-LICENSE.txt"
+  }
+}

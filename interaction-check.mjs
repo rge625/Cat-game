@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 
 // Exercise the actual pointer handlers without a browser or an audio device.
 const handlers={}, classes=new Set();
-let hitCat=true, now=10000, draw, rewards=0, captured=null;
+let hitCat=true, now=10000, draw, rewards=0, captured=null, lastCamera, lastScene;
 const canvas={clientWidth:1000,clientHeight:700,dataset:{},tabIndex:0,
  classList:{toggle(k,on){on?classes.add(k):classes.delete(k)},remove(k){classes.delete(k)}},
  addEventListener(k,fn){handlers[k]=fn},getBoundingClientRect(){return {left:0,top:0,width:1000,height:700}},
@@ -16,7 +16,7 @@ const context=vm.createContext({console:{warn(){}},Math,devicePixelRatio:1,
  document:{hidden:false,querySelector:()=>null,createElement(){return {getContext(){return new Proxy({},{get:(t,k)=>t[k]||(()=>{}),set:(t,k,v)=>(t[k]=v,true)})}}}}});
 context.window=context;
 vm.runInContext(fs.readFileSync(new URL('dist/vendor/three.min.js',import.meta.url),'utf8'),context);
-context.THREE.WebGLRenderer=class{constructor(){this.shadowMap={}}setPixelRatio(){}setSize(){}render(){}dispose(){}};
+context.THREE.WebGLRenderer=class{constructor(){this.shadowMap={}}setPixelRatio(){}setSize(){}render(scene,camera){lastScene=scene;lastCamera=camera}dispose(){}};
 context.THREE.Raycaster=class{setFromCamera(){}intersectObjects(){return hitCat?[{}]:[]}};
 context.THREE.TextureLoader=class{load(){return new context.THREE.Texture()}};
 vm.runInContext(fs.readFileSync(new URL('dist/cafe-cats.js',import.meta.url),'utf8'),context);
@@ -56,7 +56,12 @@ handlers.pointercancel({...pointer(800,450),type:'pointercancel'});assert.equal(
 handlers.pointerdown(pointer(600,400,3,'touch'));handlers.pointerdown(pointer(300,200,4,'touch'));
 assert.equal(captured,3);handlers.pointerup(pointer(600,400,3,'touch'));
 assert.equal(room.interacting,false);
+// The camera stays inside the smaller room at every orbit angle, even at maximum zoom.
+for(let i=0;i<100;i++){handlers.keydown({key:'ArrowLeft',preventDefault(){}});handlers.wheel({deltaY:1000,preventDefault(){}});draw(now+=35);assert.ok(Math.abs(lastCamera.position.x)<4.2);assert.ok(lastCamera.position.z> -3.45&&lastCamera.position.z<5.4);assert.ok(lastCamera.position.y<3.5)}
+const glass=lastScene.getObjectByName('Transparent window glass');
+assert.ok(glass&&glass.material.transparent&&glass.material.opacity<1,'Window must reveal the actual outdoor scene');
+assert.ok(lastScene.getObjectByName('Visible garden sun'),'An outdoor sun must exist');
 room.setActive(false);assert.equal(canvas.tabIndex,-1);
 room.setActive(true);assert.equal(canvas.tabIndex,0);
 room.dispose();
-console.log('Passed: hover petting, touch petting, orbit separation, cancellation, second-touch handling, and keyboard focus.');
+console.log('Passed: hover petting, touch petting, orbit separation, cancellation, second-touch handling, keyboard focus, all resident models, save migration, interior camera bounds, transparent glass, and the garden sun.');

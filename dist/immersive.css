@@ -34,3 +34,17 @@ body:not(.room-mode) #world{opacity:.6}body:not(.room-mode) .workspace{backgroun
 .room-mode .need-label{color:#42503a}.room-mode .stat-label>span:first-child{opacity:1}
 
 .mobile-cafe-logo{display:none}@media(max-width:700px){.breadcrumb{position:relative;padding-left:43px}.mobile-cafe-logo{display:block;position:absolute;left:0;top:-3px;width:34px;height:38px;object-fit:contain}}
+
+/* An anchored, non-blocking food cupboard; the room stays interactive. */
+.feed-menu{position:absolute;z-index:8;left:calc(50% + 20px);bottom:187px;transform:translateX(-50%);width:286px;padding:15px;background:#f7f0dfba;backdrop-filter:blur(16px);pointer-events:auto!important;border-radius:16px;box-shadow:0 10px 38px #30261526}
+.feed-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}.feed-heading .eyebrow{font-size:7px;letter-spacing:1.1px;color:#6d7760}.feed-heading h2{font-size:15px;color:#3c4934;margin-top:4px}
+.feed-close{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#fff8;color:#4b553e;font-size:21px}
+.feed-options{display:grid;gap:9px;margin-top:14px}.feed-option{display:flex;align-items:center;gap:9px;background:#ffffff38;padding:9px 6px;border-radius:9px}.feed-option h3{font-size:11px;color:#3d4935}.feed-option p{font-size:8px;color:#68705a;margin-top:4px}.feed-emoji{font-size:23px}.feed-option .btn{margin-left:auto;font-size:9px;padding:8px 10px;border-radius:8px}.feed-shop{display:flex;gap:8px;align-items:center;justify-content:center;color:#4f6345;width:100%;padding:11px 0 0;margin-top:11px;border-top:1px solid #586c3920;background:none;font-size:9px}.feed-shop svg{width:14px;height:14px}
+@media(max-width:920px){.feed-menu{left:calc(50% + 35px)}}
+@media(max-width:700px){.feed-menu{left:50%;bottom:229px;width:min(286px,calc(100% - 36px));padding:13px}.feed-heading h2{font-size:15px}.feed-option{padding:10px 6px}.feed-option .btn{min-height:36px;min-width:48px}.feed-close{width:34px;height:34px}}
+@media(max-height:610px) and (min-width:701px){.feed-menu{bottom:174px}}
+
+.room-mode .floating-status,.room-mode .floating-joys{background:linear-gradient(130deg,#fff8e967,#fff8e943);backdrop-filter:blur(8px)}.room-mode .floating-status .stat-label,.room-mode .floating-status .need-label,.room-mode .floating-status .stat-label>span:last-child,.room-mode .floating-status .mini-bond,.room-mode .floating-joys h2,.room-mode .floating-joys .joy-icons{color:#2e3b29}.room-mode .quick-game{background:#fff8e94d}.room-mode .companion-dock{background:#fff8e967}.room-mode .room-welcome .eyebrow,.room-mode .room-welcome>p{color:#25341f}.room-mode .room-welcome h1{color:#20311d}.room-welcome .room-tools button{background:#fff8e95e;color:#263821}
+
+@media(min-width:1101px){.feed-menu{left:auto;right:262px;transform:none}}
+@media(min-width:701px) and (max-width:1100px){.feed-menu{left:auto;right:22px;transform:none;bottom:189px;width:260px}}

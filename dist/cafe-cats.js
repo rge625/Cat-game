@@ -20,9 +20,15 @@ window.CAFE_CATS=[
  ['jelly','Jelly','silver','A soft silver tabby coat.',302,574,'#8fa981']
 ].map(([id,name,coat,bio,x,y,eyeColor])=>({id,name,coat,bio,portrait:[x,y],eyeColor}));
 window.cafeImage=name=>window.CAFE_IMAGE_ASSETS?.[name]||'assets/'+name;
+window.CAFE_ENHANCED_PORTRAITS=true;
+try{window.CAFE_ENHANCED_PORTRAITS=localStorage.getItem('little-beans-portrait-style')!=='original'}catch{}
+const enhancedCenters=[[111,519],[303,519],[494,521],[692,520],[110,787],[303,788],[495,788],[695,785],[110,1061],[302,1061],[496,1061],[697,1060],[177,1321],[401,1320],[620,1319],[281,1583],[505,1583]];
 window.cafePortrait=c=>{
- const [x,y]=c.portrait||[102,181];
- return `<div class="cafe-portrait" role="img" aria-label="${c.name.replace(/["<>]/g,'')} — café reference photo" style="background-image:url('${cafeImage('cafe-cats.png')}');background-position:${(x-36)/423*100}% ${(y-36)/547*100}%"></div>`;
+ const enhanced=window.CAFE_ENHANCED_PORTRAITS,index=CAFE_CATS.findIndex(o=>o.id===c.id);
+ const [x,y]=enhanced?(enhancedCenters[index]||enhancedCenters[0]):(c.portrait||[102,181]);
+ const pos=enhanced?[(x-90)/627*100,(y-90)/1770*100]:[(x-36)/423*100,(y-36)/547*100];
+ const size=enhanced?'448.333333% 1083.333333%':'687.5% 859.722222%';
+ return `<div class="cafe-portrait" role="img" aria-label="${c.name.replace(/["<>]/g,'')} — ${enhanced?'AI-enhanced reference':'original café photo'}" style="background-image:url('${cafeImage(enhanced?'cafe-cats-enhanced.png':'cafe-cats.png')}');background-size:${size};background-position:${pos[0]}% ${pos[1]}%"></div>`;
 };
 window.createCafeSave=(old,date)=>{
  const care=()=>({hunger:72,happiness:85,energy:64,health:100,sick:false,medicated:false,xp:20,accessory:'none',lastUpdate:Date.now()});

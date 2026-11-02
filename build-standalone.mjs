@@ -5,12 +5,12 @@ for(const name of ['styles.css','immersive.css']){
  const css=await fs.readFile(new URL('dist/'+name,root),'utf8');
  html=html.replace(`<link rel="stylesheet" href="${name}">`,()=>`<style>${css}</style>`);
 }
-for(const name of ['vendor/three.min.js','sound.js','cafe-cats.js','cat-model.js','room3d.js','home3d.js','app.js']){
+for(const name of ['vendor/three.min.js','vendor/RGBELoader.js','sound.js','cafe-cats.js','cat-model.js','room3d.js','home3d.js','app.js']){
  const js=await fs.readFile(new URL('dist/'+name,root),'utf8');
  html=html.replace(`<script src="${name}"></script>`,()=>`<script>${js.replace(/<\/script/gi,'<\\/script')}</script>`);
 }
 const embeddedImages={};
-for(const name of ['little-beans-logo.png','cafe-cats.png'])embeddedImages[name]='data:image/png;base64,'+(await fs.readFile(new URL('dist/assets/'+name,root))).toString('base64');
+for(const name of ['little-beans-logo.png','cafe-cats.png','cafe-cats-enhanced.png','materials/wood-color.jpg','materials/wood-normal.jpg','materials/wood-roughness.jpg','materials/garden.hdr'])embeddedImages[name]='data:'+(name.endsWith('.hdr')?'application/octet-stream':name.endsWith('.jpg')?'image/jpeg':'image/png')+';base64,'+(await fs.readFile(new URL('dist/assets/'+name,root))).toString('base64');
 html=html.replaceAll('src="assets/little-beans-logo.png"','src="'+embeddedImages['little-beans-logo.png']+'"');
 html=html.replace('<script>',()=>'<script>window.CAFE_IMAGE_ASSETS='+JSON.stringify(embeddedImages)+';</script><script>');
 const embeddedAudio={};
