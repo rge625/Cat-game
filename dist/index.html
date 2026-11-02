@@ -3,33 +3,34 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#f7f7ef"><meta name="description" content="A little care. A lot of purrs. Meet your virtual café cat, play cozy games, and make yourself at home.">
-  <title>Little Paws · Your café companion</title>
+  <title>Little Beans Cat Cafe · Your café companion</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="immersive.css">
 </head>
 <body>
   <div id="world" aria-label="Interactive 3D cat café"><canvas id="cafe-canvas" tabindex="0" aria-label="3D café. Drag to look around. Stroke up and down over the cat to pet it. Arrow keys rotate the view; plus and minus zoom."></canvas><div class="world-fallback" hidden>The 3D view needs WebGL. Your care controls and games still work.</div></div>
   <aside class="sidebar">
-    <a href="#home" class="brand" aria-label="Little Paws home"><span class="brand-icon" data-icon="paw"></span><span>little paws<span class="brand-sub">CAT CAFÉ & COMPANIONS</span></span></a>
+    <a href="#home" class="brand" aria-label="Little Beans Cat Cafe home"><img class="cafe-logo" src="assets/little-beans-logo.png" alt="Little Beans Cat Cafe logo"><span>little beans<span class="brand-sub">CAT CAFÉ & COMPANIONS</span></span></a>
     <div class="nav-caption">YOUR LITTLE CORNER</div>
     <nav aria-label="Main navigation">
       <button data-page="home" class="nav-link active"><span data-icon="home"></span>My companion<span class="nav-dot"></span></button>
-      <button data-page="cats" class="nav-link"><span data-icon="cat"></span>Café cats<span class="nav-tag">3</span></button>
+      <button data-page="cats" class="nav-link"><span data-icon="cat"></span>Café cats<span class="nav-tag">17</span></button>
       <button data-page="games" class="nav-link"><span data-icon="game"></span>Minigames</button>
       <button data-page="shop" class="nav-link"><span data-icon="bag"></span>Little shop</button>
       <button data-page="cafe" class="nav-link"><span data-icon="cup"></span>The café</button>
     </nav>
-    <div class="sidebar-bottom"><div class="little-note"><span>Made of little moments.</span><p>A happy cat. A warm cup.<br>A reason to come back.</p><svg viewBox="0 0 120 60" aria-hidden="true"><path d="M21 48c-12-20 5-28 12-16 7-12 24-4 12 16L33 58Z" fill="#e9c6b8"/><path d="M70 17h31v24c0 15-31 15-31 0Zm31 5c20-1 20 21 0 18" fill="#fbf8ee" stroke="#6d7860" stroke-width="2.5"/><path d="M77 10c-7-7 8-7 1-14M91 10c-7-7 8-7 1-14" fill="none" stroke="#aeb49b" stroke-width="2"/></svg></div><button id="help-button" class="quiet-button"><span data-icon="help"></span>How to play<span>↗</span></button><div class="prototype-label">A COZY LITTLE PROTOTYPE <span>v.01</span></div></div>
+    <div class="sidebar-bottom"><div class="little-note"><span>Made of little moments.</span><p>A happy cat. A warm cup.<br>A reason to come back.</p><svg viewBox="0 0 120 60" aria-hidden="true"><path d="M21 48c-12-20 5-28 12-16 7-12 24-4 12 16L33 58Z" fill="#e9c6b8"/><path d="M70 17h31v24c0 15-31 15-31 0Zm31 5c20-1 20 21 0 18" fill="#fbf8ee" stroke="#6d7860" stroke-width="2.5"/><path d="M77 10c-7-7 8-7 1-14M91 10c-7-7 8-7 1-14" fill="none" stroke="#aeb49b" stroke-width="2"/></svg></div><button id="help-button" class="quiet-button"><span data-icon="help"></span>How to play<span>↗</span></button><div class="prototype-label">A COZY LITTLE PROTOTYPE <span>v0.5</span></div></div>
   </aside>
   <div class="workspace">
-    <header class="topbar"><div class="breadcrumb">Your home away from home <span>☀</span></div><div class="topbar-actions"><span class="saved"><i></i> Saved on this device</span><button class="top-help" id="mobile-help" aria-label="How to play" data-icon="help"></button><button class="coin-balance" id="coin-button" aria-label="Open shop"><span class="coin">✦</span><strong id="coins">120</strong><span>coins</span></button><button id="profile-button" class="avatar" aria-label="Open café passport">R</button></div></header>
+    <header class="topbar"><div class="breadcrumb"><img class="mobile-cafe-logo" src="assets/little-beans-logo.png" alt="">little beans <span class="cafe-wordmark-sub">cat cafe</span></div><div class="topbar-actions"><span class="saved"><i></i> Saved on this device</span><button class="top-help" id="mobile-help" aria-label="How to play" data-icon="help"></button><button class="coin-balance" id="coin-button" aria-label="Open shop"><span class="coin">✦</span><strong id="coins">120</strong><span>coins</span></button><button id="profile-button" class="avatar" aria-label="Open café passport">R</button></div></header>
     <main id="main" tabindex="-1"></main>
-    <footer>A little care. A lot of purrs. <span>♡</span><span>Little Paws · Café companion prototype</span></footer>
+    <footer>A little care. A lot of purrs. <span>♡</span><span>Little Beans Cat Cafe · Café companion prototype</span></footer>
   </div>
   <dialog id="modal"><div id="modal-content"></div></dialog>
   <div id="toast" role="status" aria-live="polite"></div>
   <script src="vendor/three.min.js"></script>
   <script src="sound.js"></script>
+  <script src="cafe-cats.js"></script>
   <script src="cat-model.js"></script>
   <script src="room3d.js"></script>
   <script src="home3d.js"></script>

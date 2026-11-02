@@ -8,3 +8,29 @@ body{background:#e5e4d5}#world{position:fixed;inset:0;z-index:0;transition:opaci
 @media(max-width:700px) and (max-height:740px){.quick-games{bottom:232px}.floating-joys{bottom:232px}.room-hint{bottom:213px;font-size:6px}.companion-dock{padding:10px 15px 9px}.dock-title p{display:none}.dock-title{margin-bottom:8px}.floating-status{top:72px}.room-welcome{top:72px}.world-speech{font-size:7px}}@media(max-height:610px) and (min-width:701px){.room-welcome{top:89px}.floating-status{top:89px}.floating-joys{bottom:22px}.quick-games{top:210px}.companion-dock{bottom:20px}.room-hint{bottom:183px}}
 
 @media(max-width:700px){.floating-status .stat-label{font-size:9px}.floating-status .stat-label>span:last-child{font-size:8px}.floating-status .panel-heading h2{font-size:12px}.mini-bond{font-size:8px}.quick-game>span:nth-child(2){font-size:10px}.quick-game small{font-size:8px}.floating-joys h2{font-size:10px}.joy-icons>span{font-size:8px}.floating-joys .btn{font-size:8px}.companion-dock .action{font-size:9px}.dock-title p{font-size:8px}.room-hint{font-size:8px;bottom:218px}.room-hint span{white-space:normal;max-width:280px;text-align:center}.world-speech{font-size:9px;max-width:180px}.world-speech:after{background:#fffef6}}
+
+/* Little Beans: clear overlays, with the home visible through every panel. */
+#cafe-canvas.over-cat{cursor:grab}#cafe-canvas.petting{cursor:grabbing}
+.sidebar,.glass{background:rgba(255,250,235,.14);border-color:rgba(255,255,255,.32);backdrop-filter:blur(6px);box-shadow:0 5px 24px #34271a0a}
+.sidebar{padding-top:10px}.brand{margin-bottom:16px}.cafe-logo{width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 2px 3px #442b2315)}
+.breadcrumb{color:#423528;letter-spacing:-.6px;font-size:21px;text-shadow:0 1px 8px #fff9}.breadcrumb>.cafe-wordmark-sub{display:inline;font-size:12px;letter-spacing:.4px;margin-left:5px;color:#286f60}
+.top-help,.coin-balance,.avatar,.room-tools button,.cafe-shortcut{background:#fff7df30;border-color:#ffffff60;backdrop-filter:blur(5px);color:#4e513b}
+.room-welcome h1{color:#3f4936}.room-welcome>p,.room-welcome .eyebrow,.room-tools button{color:#48543d}
+.room-mode .glass{color:#394432}.room-mode .glass h2,.quick-game>span:nth-child(2){color:#384832}
+.room-mode .dock-title p,.mini-bond,.quick-game small,.room-mode .stat-label{color:#555b42}
+.dock-title h2>span,.dock-title button{background:#fff9;border-color:#fff5;color:#49543c}
+.companion-dock .action-icon{background:#fff6;border:1px solid #fff5}.companion-dock .action{color:#374b36}
+.floating-status .bar{background:#51492b25}.floating-joys .btn{background:#fff5;border-color:#fff5;color:#4b573c}
+.world-speech{background:#fff8e74d;backdrop-filter:blur(4px);color:#4e563f;border-color:#ffffff70}.world-speech:after{background:#fff8e780;border-color:#fff8}
+.room-hint{color:#404c35!important;text-shadow:0 1px 5px #fff}.joy-icons{color:#66694f}.joy-icons>span.done{color:#256c58}
+.quick-game:hover,.room-tools button:hover{background:#fff9}
+.cafe-portrait{width:154px;height:154px;max-width:80%;border-radius:50%;background-size:687.5% 859.722222%;background-repeat:no-repeat;box-shadow:0 6px 25px #3a2e251c;border:3px solid #fff8}
+.resident-art{display:flex;align-items:center;justify-content:center;background:#d9c2a533}.sample-badge{background:#f8e8dcb8;color:#53694c}
+body:not(.room-mode) #world{opacity:.6}body:not(.room-mode) .workspace{background:#f2eddd50;backdrop-filter:blur(7px)}
+@media(max-width:700px){.sidebar{background:#fff9e92b}.breadcrumb{font-size:19px}.breadcrumb>.cafe-wordmark-sub{display:block;font-size:9px;margin-left:0}.floating-status,.floating-joys,.companion-dock{background:#fff7e52e}.cafe-portrait{width:140px;height:140px}}
+
+.room-mode .stat-label>span:last-child,.mini-bond>span:last-child,.dock-title p,.floating-joys .panel-heading>span{color:#535a40}.room-mode .stat-label{color:#394a34}.floating-status .status-chip{background:#fff8;color:#47613e}.floating-status .status-chip.sick{color:#8c4c3e}.floating-status .stat-label svg{color:#687644}
+
+.room-mode .need-label{color:#42503a}.room-mode .stat-label>span:first-child{opacity:1}
+
+.mobile-cafe-logo{display:none}@media(max-width:700px){.breadcrumb{position:relative;padding-left:43px}.mobile-cafe-logo{display:block;position:absolute;left:0;top:-3px;width:34px;height:38px;object-fit:contain}}

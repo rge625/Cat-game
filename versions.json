@@ -38,8 +38,16 @@
     {
       "version": "0.4.1",
       "title": "Development journal and GitHub export",
-      "github_branch": "main",
+      "github_branch": "v0.4.1",
       "source_status": "Current journal and repository handoff"
+    },
+    {
+      "version": "0.5.0",
+      "date": "2026-11-02",
+      "title": "Little Beans identity, 17 café cats, and full-screen home",
+      "github_branch": "v0.5.0",
+      "screenshot": "dist/blog/images/v0.5-little-beans.jpg"
     }
-  ]
+  ],
+  "updated": "2026-11-02"
 }
