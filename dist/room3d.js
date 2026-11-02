@@ -2,11 +2,11 @@
 window.createCafeRoom=function({canvas,onStroke,audio}){
  const T=window.THREE;if(!T)throw new Error('3D library unavailable');
  const renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
- renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=.95;
+ const phone=canvas.clientWidth<700,lowMemory=(window.navigator?.deviceMemory||8)<=4;let renderScale=Math.min(devicePixelRatio,phone||lowMemory?1:1.25);renderer.setPixelRatio(renderScale);canvas.dataset.renderScale=renderScale.toFixed(2);renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;renderer.shadowMap.needsUpdate=true;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=.95;
  const scene=new T.Scene();scene.background=new T.Color('#b9d5e8');
  const camera=new T.PerspectiveCamera(58,1,.08,140),target=new T.Vector3(0,.99,.55),ray=new T.Raycaster(),pointer=new T.Vector2();
  let yaw=.12,pitch=.10,distance=4.65,wantedYaw=yaw,wantedPitch=pitch,wantedDistance=distance,active=true,currentCat=null,catKey='',petUntil=0,lastReward=0,frame=0,lastFrame=0,drag=null,hover=null,strokeDistance=0,strokeDirection=0,reversals=0,disposed=false;
- const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let sampleStart=0,sampleFrames=0;const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
  const materials=new Map(),textures=new Set();
  const mat=(color,extra={})=>{const key=color+Object.entries(extra).map(([k,v])=>k+':'+(v?.uuid||JSON.stringify(v))).join('|');if(!materials.has(key))materials.set(key,new T.MeshStandardMaterial({color,roughness:.75,metalness:0,envMapIntensity:.45,...extra}));return materials.get(key)};
  const room=new T.Group();scene.add(room);
@@ -43,13 +43,13 @@ window.createCafeRoom=function({canvas,onStroke,audio}){
  box([.18,3.8,9.4],greenWall,[leftX,1.9,1]);box([.18,3.8,9.4],wallMat,[rightX,1.9,1]);box([9,3.8,.18],greenWall,[0,1.9,frontZ]);box([9,.13,9.4],mat('#f2eee5'),[0,3.86,1]);
  for(const z of[backZ+.12,frontZ-.12])box([9,.15,.05],'#f2e9da',[0,.075,z]);for(const x of[leftX+.12,rightX-.12])box([.05,.15,9.4],'#f2e9da',[x,.075,1]);
  scene.add(new T.HemisphereLight('#eaf4ff','#b5a48f',1.1));scene.add(new T.AmbientLight('#fff7ea',.45));
- const sun=new T.DirectionalLight('#fff1d8',3.6);sun.position.set(-2.7,7,-13);sun.target.position.set(.7,0,2);scene.add(sun.target);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-7,right:7,top:7,bottom:-7,near:1,far:32});sun.shadow.normalBias=.025;sun.shadow.bias=-.00012;sun.shadow.radius=3;scene.add(sun);
+ const sun=new T.DirectionalLight('#fff1d8',3.6);sun.position.set(-2.7,7,-13);sun.target.position.set(.7,0,2);scene.add(sun.target);sun.castShadow=true;sun.shadow.mapSize.set(phone||lowMemory?512:1024,phone||lowMemory?512:1024);Object.assign(sun.shadow.camera,{left:-7,right:7,top:7,bottom:-7,near:1,far:32});sun.shadow.normalBias=.025;sun.shadow.bias=-.00012;sun.shadow.radius=3;scene.add(sun);
  const bounce=new T.DirectionalLight('#ffeddb',1.8);bounce.position.set(1,3.4,4);scene.add(bounce);
  let gardenEnv=null;
  if(window.RGBELoader)new RGBELoader().load(cafeImage('materials/garden.hdr'),t=>{if(disposed){t.dispose();return}gardenEnv=t;t.mapping=T.EquirectangularReflectionMapping;scene.background=t;scene.environment=t;canvas.dataset.garden='loaded'},undefined,()=>{canvas.dataset.garden='fallback'});
  // Transparent glass: everything behind it belongs to the outside world.
  const windowGroup=new T.Group();windowGroup.position.set(-1.4,2.25,backZ+.08);room.add(windowGroup);
- const glass=new T.MeshPhysicalMaterial({color:'#f3fcff',metalness:0,roughness:.025,transparent:true,opacity:.24,transmission:.15,thickness:.015,ior:1.46,clearcoat:1,envMapIntensity:.8,depthWrite:false,side:T.DoubleSide});materials.set('glass',glass);
+ const glass=new T.MeshPhysicalMaterial({color:'#f3fcff',metalness:0,roughness:.025,transparent:true,opacity:.24,transmission:0,thickness:.015,ior:1.46,clearcoat:1,envMapIntensity:.8,depthWrite:false,side:T.DoubleSide});materials.set('glass',glass);
  const pane=mesh(new T.PlaneGeometry(3.3,2.3),glass,[0,0,0],[1,1,1],windowGroup);pane.castShadow=false;pane.name='Transparent window glass';
  for(const x of[-1.72,0,1.72])rounded(.065,2.5,.1,.022,'#e8e3d8',[x,0,.04],windowGroup);
  for(const y of[-1.22,0,1.22])rounded(3.5,.065,.1,.022,'#e8e3d8',[0,y,.04],windowGroup);
@@ -112,9 +112,32 @@ window.createCafeRoom=function({canvas,onStroke,audio}){
  for(let i=0;i<24;i++)ball([.021,.016,.02],'#86603c',[Math.sin(i*2.4)*(.08+i*.004),.07,Math.cos(i*2.4)*(.08+i*.004)],bowl);
  const yarn=ball([.13,.13,.13],rose,[1.21,.14,1.17]);for(let i=0;i<9;i++){const ring=mesh(new T.TorusGeometry(.132,.004,5,40),'#d5b09a',[1.21,.14,1.17]);ring.rotation.set(i*.8,i*.6,i*.4)}tube([[1.2,.02,1.27],[1.5,.02,1.5],[1.85,.02,1.4]],.005,'#b98f7b');
  cylinder(.35,.35,.04,furnitureWood,[-1.85,.025,-1.2]);cylinder(.09,.09,.95,sand,[-1.85,.51,-1.2]);for(let i=0;i<36;i++){const ring=mesh(new T.TorusGeometry(.094,.007,5,24),'#ac9876',[-1.85,.08+i*.024,-1.2]);ring.rotation.x=Math.PI/2}cushion(.43,.08,.43,ivory,[-1.85,1,-1.2]);
+ // Merge static geometry by surface material. Furniture no longer makes hundreds
+ // of separate draw calls; the cat and transparent window remain independent.
+ scene.updateMatrixWorld(true);
+ const buckets=new Map();let staticMeshes=0;
+ scene.traverse(o=>{
+  if(!o.isMesh||o.name||o.material.transparent||Array.isArray(o.material))return;
+  const key=o.material.uuid+'|'+o.castShadow+'|'+o.receiveShadow;
+  if(!buckets.has(key))buckets.set(key,[]);buckets.get(key).push(o);staticMeshes++;
+ });
+ let staticBatches=0;
+ for(const objects of buckets.values()){
+  if(objects.length<2){staticBatches++;continue}
+  const parts=objects.map(o=>{const g=o.geometry.index?o.geometry.toNonIndexed():o.geometry.clone();g.applyMatrix4(o.matrixWorld);return g});
+  const total=parts.reduce((n,g)=>n+g.attributes.position.count,0),g=new T.BufferGeometry();
+  for(const [name,size]of[['position',3],['normal',3],['uv',2]]){
+   const values=new Float32Array(total*size);let offset=0;
+   for(const part of parts){const a=part.getAttribute(name);if(a)values.set(a.array,offset);offset+=part.attributes.position.count*size}
+   g.setAttribute(name,new T.BufferAttribute(values,size));
+  }
+  g.computeBoundingSphere();const merged=new T.Mesh(g,objects[0].material);merged.castShadow=objects[0].castShadow;merged.receiveShadow=objects[0].receiveShadow;scene.add(merged);
+  objects.forEach(o=>{o.parent.remove(o);o.geometry.dispose()});parts.forEach(p=>p.dispose());staticBatches++;
+ }
+ canvas.dataset.staticMeshes=String(staticMeshes);canvas.dataset.staticBatches=String(staticBatches);
  // Reference-based dimensional resident, animated independently of camera movement.
  const CAT_SCALE=.76;const catRoot=new T.Group();catRoot.scale.setScalar(CAT_SCALE);catRoot.position.set(0,.035,.55);room.add(catRoot);let head,tail,eyes=[],ears=[],petMeshes=[],accessories=[];
- function rebuild(c){catRoot.traverse(o=>o.geometry?.dispose());catRoot.userData.hairMaterial?.dispose();catRoot.clear();petMeshes=[];const model=buildCafeCat(T,catRoot,c);head=model.head;tail=model.tail;eyes=model.eyes;ears=model.ears;catRoot.traverse(o=>{if(o.isMesh)petMeshes.push(o)});currentCat={...c};catKey=[c.id,c.coat,c.eyeColor,c.accessory,c.sick].join('|');}
+ function rebuild(c){renderer.shadowMap.needsUpdate=true;catRoot.traverse(o=>o.geometry?.dispose());catRoot.userData.hairMaterial?.dispose();catRoot.clear();petMeshes=[];const model=buildCafeCat(T,catRoot,c);head=model.head;tail=model.tail;eyes=model.eyes;ears=model.ears;catRoot.traverse(o=>{if(o.isMesh)petMeshes.push(o)});currentCat={...c};catKey=[c.id,c.coat,c.eyeColor,c.accessory,c.sick].join('|');}
 
  function sync(c){const key=[c.id,c.coat,c.eyeColor,c.accessory,c.sick].join('|');if(key!==catKey)rebuild(c);currentCat={...c}}
  function setCamera(){const portrait=canvas.clientWidth<650;let r=distance*(portrait?1.08:1);const sx=Math.sin(yaw)*Math.cos(pitch),sz=Math.cos(yaw)*Math.cos(pitch);r=Math.min(r,4.15/Math.max(.001,Math.abs(sx)),(sz>0?4.82:3.95)/Math.max(.001,Math.abs(sz)),2.45/Math.max(.001,Math.sin(pitch)));camera.position.set(Math.sin(yaw)*Math.cos(pitch)*r,target.y+Math.sin(pitch)*r,Math.cos(yaw)*Math.cos(pitch)*r+target.z);camera.lookAt(target);camera.updateMatrixWorld();canvas.dataset.viewYaw=yaw.toFixed(3);canvas.dataset.viewPitch=pitch.toFixed(3)}
@@ -132,8 +155,8 @@ window.createCafeRoom=function({canvas,onStroke,audio}){
  function purr(){petUntil=performance.now()+1800;startPurr()}
  function toggleSound(){return audio?.toggle()||false}
  const headWorld=new T.Vector3(),screen=new T.Vector3();
- function draw(now){frame=requestAnimationFrame(draw);if(!active||document.hidden)return;if(now-lastFrame<1000/45)return;lastFrame=now;yaw+=(wantedYaw-yaw)*.16;pitch+=(wantedPitch-pitch)*.16;distance+=(wantedDistance-distance)*.16;setCamera();const t=now*.001,purring=now<petUntil;canvas.dataset.purring=String(purring);if(head){head.rotation.z=purring&&!reduceMotion?Math.sin(t*10)*.035:0;head.rotation.x=purring?-.06:0;catRoot.scale.y=CAT_SCALE*(reduceMotion?1:1+Math.sin(t*(purring?8:1.8))*(purring?.004:.006));tail.rotation.y=reduceMotion?0:Math.sin(t*(purring?1.5:.65))*.065;eyes.forEach(eye=>eye.scale.y=purring?.3:currentCat?.sick?.45:Math.sin(t*.7)>.995?.08:1);head.getWorldPosition(headWorld);headWorld.y+=.75;screen.copy(headWorld).project(camera);const speech=document.querySelector('#speech');if(speech){speech.style.left=`${(screen.x*.5+.5)*canvas.clientWidth}px`;speech.style.top=`${(-screen.y*.5+.5)*canvas.clientHeight}px`;speech.classList.toggle('purring',purring);if(purring)speech.textContent='Prrrr… that’s the spot. ♡'}}
- renderer.render(scene,camera)}
+ function draw(now){frame=requestAnimationFrame(draw);if(!active||document.hidden)return;if(now-lastFrame<1000/(phone||lowMemory?30:60)-1)return;const dt=Math.min(.1,Math.max(.001,(now-lastFrame)/1000)),blend=1-Math.exp(-20*dt);lastFrame=now;yaw+=(wantedYaw-yaw)*blend;pitch+=(wantedPitch-pitch)*blend;distance+=(wantedDistance-distance)*blend;setCamera();const t=now*.001,purring=now<petUntil;canvas.dataset.purring=String(purring);if(head){head.rotation.z=purring&&!reduceMotion?Math.sin(t*10)*.035:0;head.rotation.x=purring?-.06:0;catRoot.scale.y=CAT_SCALE*(reduceMotion?1:1+Math.sin(t*(purring?8:1.8))*(purring?.004:.006));tail.rotation.y=reduceMotion?0:Math.sin(t*(purring?1.5:.65))*.065;eyes.forEach(eye=>eye.scale.y=purring?.3:currentCat?.sick?.45:Math.sin(t*.7)>.995?.08:1);head.getWorldPosition(headWorld);headWorld.y+=.75;screen.copy(headWorld).project(camera);const speech=document.querySelector('#speech');if(speech){speech.style.left=`${(screen.x*.5+.5)*canvas.clientWidth}px`;speech.style.top=`${(-screen.y*.5+.5)*canvas.clientHeight}px`;speech.classList.toggle('purring',purring);if(purring)speech.textContent='Prrrr… that’s the spot. ♡'}}
+ renderer.render(scene,camera);sampleFrames++;if(!sampleStart)sampleStart=now;if(now-sampleStart>1200){const fps=sampleFrames*1000/(now-sampleStart);canvas.dataset.renderFps=String(Math.round(fps));canvas.dataset.drawCalls=String(renderer.info?.render?.calls||0);if(fps<24&&renderScale>.75){renderScale=Math.max(.75,renderScale*.85);renderer.setPixelRatio(renderScale);canvas.dataset.renderScale=renderScale.toFixed(2)}sampleStart=now;sampleFrames=0}}
  resize();frame=requestAnimationFrame(draw);
  return {sync,purr,reset,toggleSound,get soundEnabled(){return audio?.enabled||false},setActive(v){active=v;canvas.tabIndex=v?0:-1},get interacting(){return !!drag},dispose(){disposed=true;cancelAnimationFrame(frame);ro.disconnect();scene.traverse(o=>o.geometry?.dispose());textures.forEach(t=>t.dispose());gardenEnv?.dispose();catRoot.userData.hairMaterial?.dispose();materials.forEach(m=>m.dispose());window.disposeCafeCatMaterials?.();renderer.dispose()}};
 };

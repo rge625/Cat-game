@@ -18,6 +18,10 @@ A browser-first cat café game prototype. Run `node build-standalone.mjs` to cre
 - Compact translucent care, reward, game, and navigation controls over the room.
 - One sound toggle controls real recorded purring and feeding, gentle UI clicks, resting chimes, and relaxed café music. Audio starts off and pauses when the tab is hidden.
 
+## Rendering performance
+
+Static furniture and room surfaces are combined by material (514 meshes to 45 batches in the default scene). Sun shadows are cached and refreshed on cat rebuild. Glass uses transparency without a transmission render pass. Pixel density starts at up to 1.25 on desktop or 1 on small/low-memory devices and automatically drops as low as 0.75 under sustained low frame rate. Rendering targets 60 FPS on desktop and 30 FPS on phones, pauses outside the home view, and stops drawing in hidden tabs. Camera smoothing uses elapsed time. The local desktop preview settled near 60 FPS after startup; actual performance depends on the device.
+
 ## Prototype boundaries
 
 The café identity, logo, and resident references are supplied by the user. The poster is a historical reference, not a live availability list. All progress is saved in localStorage on this browser/device. No accounts, server database, real purchases, visit verification, bookings, or redeemable café offers are connected. Uploaded photos appear on resident profile cards; the room uses an original 3D cat with the chosen coat and accessory. 3D needs WebGL; care controls and games remain available if it is unavailable. Sound starts off and can be enabled with the Sound button.
@@ -32,6 +36,6 @@ The static website is in `dist/`. It needs no package installation. Web fonts ar
 
 ## Development journal and versions
 
-Read the [development journal](dist/blog/index.html) or its [hosted version](https://little-paws-cafe-ronnie.verve-4139.chatgpt.site/blog/). It covers six gameplay iterations from November 1–2, 2026, plus the journal and repository handoff. The initial 2D build has a screenshot but no saved Git snapshot. Saved source versions are exported to the `v0.2.0`, `v0.3.0`, and `v0.4.0` GitHub branches; `main` is the current v0.6.0 compact lounge build, also archived in `v0.6.0`. Version 2 of the save format migrates the old sample cats’ care to Zeus, Ralph, and Star, preserving the wallet, inventory, accessories, goals, and café card. See `versions.json` for original local commit hashes. GitHub export commits have their own hashes.
+Read the [development journal](dist/blog/index.html) or its [hosted version](https://little-paws-cafe-ronnie.verve-4139.chatgpt.site/blog/). It covers six gameplay iterations from November 1–2, 2026, plus the journal and repository handoff. The initial 2D build has a screenshot but no saved Git snapshot. Saved source versions are exported to the `v0.2.0`, `v0.3.0`, and `v0.4.0` GitHub branches; `main` is the current v0.6.1 performance build, also archived in `v0.6.1`. Version 2 of the save format migrates the old sample cats’ care to Zeus, Ralph, and Star, preserving the wallet, inventory, accessories, goals, and café card. See `versions.json` for original local commit hashes. GitHub export commits have their own hashes.
 
 GitHub contains the portable source, bundled media, credits, and checks. The generated standalone HTML is rebuilt with `node build-standalone.mjs`; private Sites project metadata is not part of the public export. The repository is [rge625/Cat-game](https://github.com/rge625/Cat-game).

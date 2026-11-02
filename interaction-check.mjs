@@ -60,8 +60,11 @@ assert.equal(room.interacting,false);
 for(let i=0;i<100;i++){handlers.keydown({key:'ArrowLeft',preventDefault(){}});handlers.wheel({deltaY:1000,preventDefault(){}});draw(now+=35);assert.ok(Math.abs(lastCamera.position.x)<4.2);assert.ok(lastCamera.position.z> -3.45&&lastCamera.position.z<5.4);assert.ok(lastCamera.position.y<3.5)}
 const glass=lastScene.getObjectByName('Transparent window glass');
 assert.ok(glass&&glass.material.transparent&&glass.material.opacity<1,'Window must reveal the actual outdoor scene');
+assert.equal(glass.material.transmission,0,'Window must avoid the full-scene transmission pass');
+assert.ok(+canvas.dataset.staticBatches < +canvas.dataset.staticMeshes*.2,'Static room meshes must remain batched');
 assert.ok(lastScene.getObjectByName('Visible garden sun'),'An outdoor sun must exist');
 room.setActive(false);assert.equal(canvas.tabIndex,-1);
 room.setActive(true);assert.equal(canvas.tabIndex,0);
 room.dispose();
+canvas.clientWidth=390;const phoneRoom=context.createCafeRoom({canvas,onStroke:()=>{}});phoneRoom.sync({...context.CAFE_CATS[0],accessory:'none'});assert.ok(+canvas.dataset.renderScale<=1,'Phone pixel density must start capped');phoneRoom.dispose();
 console.log('Passed: hover petting, touch petting, orbit separation, cancellation, second-touch handling, keyboard focus, all resident models, save migration, interior camera bounds, transparent glass, and the garden sun.');

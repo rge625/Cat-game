@@ -54,6 +54,12 @@
       "title": "Compact lounge, transparent windows, sunny garden, enhanced portraits, and floating food menu",
       "github_branch": "v0.6.0",
       "screenshot": "dist/blog/images/v0.6-cozy.jpg"
+    },
+    {
+      "version": "0.6.1",
+      "date": "2026-11-02",
+      "title": "Static geometry batching, cached shadows, adaptive resolution, and responsive camera",
+      "github_branch": "v0.6.1"
     }
   ],
   "updated": "2026-11-02"
